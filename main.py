@@ -2,8 +2,8 @@
 
 import spacy
 
-def my_func():
-    print("My func")
+def my_func1():
+    print("My func1")
     nlp = spacy.load('en_core_web_sm')
     introduction_text = ('This tutorial is about Natural Language Processing in Spacy')
     #introduction_text = ('Это проверка способностей аппликации')
@@ -29,17 +29,31 @@ def my_func():
         print (sentence)
 
 
+def set_custom_boundaries(doc):
+    # Adds support to use `...` as the delimiter for sentence detection
+    for token in doc[:-1]:
+        if token.text == '...':
+            doc[token.i+1].is_sent_start = True
+    return doc
 
+def my_func2():
+    # ellipsis_text = ('Gus, can you, ... never mind, I forgot'
+    #              ' what I was saying. So, do you think'
+    #              ' we should ...')
 
+    ellipsis_text = ('הי, מה נשמע...  לא משנה בעצם. צריך לקנות חלב.')
+    # Load a new model instance
+    custom_nlp = spacy.load('en_core_web_sm')
+    custom_nlp.add_pipe(set_custom_boundaries, before='parser')
+    custom_ellipsis_doc = custom_nlp(ellipsis_text)
+    custom_ellipsis_sentences = list(custom_ellipsis_doc.sents)
+    for sentence in custom_ellipsis_sentences:
+        print(sentence)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #print_hi('PyCharm')
-    my_func()
+    #my_func1()
+    my_func2()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
