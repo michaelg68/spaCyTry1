@@ -1,6 +1,7 @@
 # https://realpython.com/natural-language-processing-spacy-python/
-
+# https://www.thepythoncode.com/article/using-speech-recognition-to-convert-speech-to-text-python
 import spacy
+import speech_recognition as sr
 
 def my_func1():
     print("My func1")
@@ -50,10 +51,67 @@ def my_func2():
     for sentence in custom_ellipsis_sentences:
         print(sentence)
 
+def audio_file_to_text():
+    print("Running audio_file_to_text function")
+    filename = "resources/16-122828-0002.wav"
+    #initialize the recognizer
+    r = sr.Recognizer()
+    # open the file
+    with sr.AudioFile(filename) as source:
+        # listen for the data (load audio to memory)
+        audio_data = r.record(source)
+        # recognize (convert from speech to text)
+        text = r.recognize_google(audio_data)
+        print(text)
+
+def audio_file_to_text_heb():
+    print("Running audio_file_to_text_heb function")
+    filename = "resources/heb_202126-231356.wav"
+    #initialize the recognizer
+    r = sr.Recognizer()
+    # open the file
+    with sr.AudioFile(filename) as source:
+        # listen for the data (load audio to memory)
+        audio_data = r.record(source)
+        # recognize (convert from speech to text)
+        #text = r.recognize_google(audio_data)
+        text = r.recognize_google(audio_data, language="he-IL")
+        print(text)
 
 
 # Press the green button in the gutter to run the script.
+def microphone_to_text():
+    print("Running microphone_to_text function")
+    #initialize the recognizer
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        # read the audio data from the default microphone
+        print("Speak now, please.")
+        audio_data = r.record(source, duration=5)
+        print("Recognizing...")
+        # convert speech to text
+        text = r.recognize_google(audio_data)
+        print(text)
+
+def microphone_to_text_heb():
+    print("Running microphone_to_text_heb function")
+    #initialize the recognizer
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        # read the audio data from the default microphone
+        print("Speak now, please.")
+        audio_data = r.record(source, duration=5)
+        print("Recognizing...")
+        # convert speech to text
+        text = r.recognize_google(audio_data, language="he-IL")
+        print(text)
+
 if __name__ == '__main__':
     #my_func1()
-    my_func2()
-
+    #my_func2()
+    #audio_file_to_text()
+    #microphone_to_text()
+    #audio_file_to_text_heb()
+    microphone_to_text_heb()
+    
+    
